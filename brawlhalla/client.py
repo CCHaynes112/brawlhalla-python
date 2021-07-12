@@ -10,39 +10,29 @@ class Brawlhalla:
         self.Ranking = Ranking(api_key)
 
 
-class Player:
+class BaseType:
     BASE_URL = "https://api.brawlhalla.com"
 
     def __init__(self, api_key):
         self.api_key = api_key
         self.api_key_param = f"?api_key={api_key}"
 
-    def get(self, id=None):
-        if id is None:
-            return
+
+class Player(BaseType):
+    def get(self, id):
         endpoint = f"{self.BASE_URL}/player/{id}/stats{self.api_key_param}"
         return requests.get(endpoint).json()
 
     def find(self):
         pass
 
-    def get_ranked(self):
-        if id is None:
-            return
+    def get_ranked(self, id):
         endpoint = f"{self.BASE_URL}/player/{id}/ranked{self.api_key_param}"
         return requests.get(endpoint).json()
 
 
-class Legend:
-    BASE_URL = "https://api.brawlhalla.com"
-
-    def __init__(self, api_key):
-        self.api_key = api_key
-        self.api_key_param = f"?api_key={api_key}"
-
-    def get(self, id=None):
-        if id is None:
-            return
+class Legend(BaseType):
+    def get(self, id):
         endpoint = f"{self.BASE_URL}/legend/{id}/{self.api_key_param}"
         return requests.get(endpoint).json()
 
@@ -51,29 +41,21 @@ class Legend:
         return requests.get(endpoint).json()
 
 
-class Clan:
-    BASE_URL = "https://api.brawlhalla.com"
-
-    def __init__(self, api_key):
-        self.api_key = api_key
-        self.api_key_param = f"?api_key={api_key}"
-
-    def get(self, bracket=None, location=None, page=None):
+class Leaderboards(BaseType):
+    def get(self, bracket, location, page):
         endpoint = (
             f"{self.BASE_URL}/rankings/{bracket}/{location}/{page}{self.api_key_param}"
         )
         return requests.get(endpoint).json()
 
 
-class Ranking:
-    BASE_URL = "https://api.brawlhalla.com"
-
-    def __init__(self, api_key):
-        self.api_key = api_key
-        self.api_key_param = f"?api_key={api_key}"
-
-    def get(self, id=None):
-        if id is None:
-            return
+class Clan(BaseType):
+    def get(self, id):
         endpoint = f"{self.BASE_URL}/clan/{id}/{self.api_key_param}"
+        return requests.get(endpoint).json()
+
+
+class Ranking(BaseType):
+    def get(self, id):
+        endpoint = f"{self.BASE_URL}/player/{id}/ranked/{self.api_key_param}"
         return requests.get(endpoint).json()
