@@ -43,9 +43,7 @@ class Legend(BaseType):
 
 class Leaderboards(BaseType):
     def get(self, bracket, location, page):
-        endpoint = (
-            f"{self.BASE_URL}/rankings/{bracket}/{location}/{page}{self.api_key_param}"
-        )
+        endpoint = f"{self.BASE_URL}/rankings/{bracket}/{location}/{page}{self.api_key_param}"
         return requests.get(endpoint).json()
 
 
